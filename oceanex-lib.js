@@ -13,4 +13,9 @@ exports.getTicker = async function(market) {
     let res = await axios.get(API_BASE_URL + 'tickers/' + market);
     return res.data;
 };
+
+exports.getAllTickers = async function() {
+    let res = await axios.get(API_BASE_URL + 'tickers');
+    return res.data;
+};
  
