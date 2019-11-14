@@ -4,7 +4,7 @@
     "description": "Simple library to communicate with OceanEx API",
     "license": "MIT",
     "repository": "krong/oceanex_lib",
-    "main": "index.js",
+    "main": "server.js",
     "keywords": [
         "oceanex",
         "trading",
