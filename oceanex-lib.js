@@ -18,4 +18,9 @@ exports.getAllTickers = async function() {
     let res = await axios.get(API_BASE_URL + 'tickers');
     return res.data;
 };
+
+exports.getOrderBook = async function(market, limit = 30) {
+    let res = await axios.get(API_BASE_URL + 'order_book?market=' + market + '&limit=' + limit);
+    return res.data;
+};
  
