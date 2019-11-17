@@ -59,5 +59,17 @@ describe('Public endpoints', function() {
             }
         }, done);
     });
+
+    it("Check getServerTime() ", function(done) {
+        var checker = oceanex.getOrderBook('vetbtc', 5)
+        checker.then(function(result){
+            try {
+                expect(result.code).to.equal(0);
+                done();
+            } catch(err) {
+                done(err);
+            }
+        }, done);
+    });
 });
 
