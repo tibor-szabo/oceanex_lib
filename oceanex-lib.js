@@ -134,7 +134,7 @@ exports.OceanEx = class  {
         //console.log('Attempting to get status of trade id: ' + id )
 
         let data = {
-            "uid": UID,
+            "uid": this.UID,
             "data": {
             "ids" : [id]
             }
