@@ -4,9 +4,9 @@ const jwt  = require('jsonwebtoken');
 const API_BASE_URL = 'https://api.oceanex.pro/v1/'
 
 var SIGN_OPTIONS = {
-    issuer:  'i',
-    subject:  's',
-    audience:  'a',
+    issuer:  'self-signed',
+    subject:  'oceanex-trading',
+    audience:  'oceanex',
     expiresIn:  "12h",
     algorithm:  "RS256"
 };
