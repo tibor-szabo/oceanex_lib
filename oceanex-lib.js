@@ -95,13 +95,10 @@ exports.OceanEx = class  {
 
         let tradeResult = await this.privatePostQuery('https://api.oceanex.pro/v1/orders?' , createTrade);
 
-        if (tradeResult.code == 0) {
-            return tradeResult;
+        if (tradeResult.code != 0) {
+            throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
         }
 
-        // FIXME:
-        console.log("Something went wrong !!!!!! ")
-        console.log(tradeResult)
         return tradeResult;
     }
 
@@ -118,14 +115,11 @@ exports.OceanEx = class  {
 
         let result = await this.privatePostQuery('https://api.oceanex.pro/v1/order/delete?' , cancelTrade);
 
-        if (result.data.state == 'done') {
-            console.log("Trade cancelled!")
-            console.log(result.data)
+        if (result.code != 0) {
+            throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + tradeResult.message);
         }
-        else {
-            console.log("Something went wrong !!!!!!")
-            console.log(result)
-        }
+       
+        console.log("Trade cancelled")
         return result.data;
     }
 
@@ -143,7 +137,7 @@ exports.OceanEx = class  {
         let result = await this.privateGetQuery(' https://api.oceanex.pro/v1/orders?' , data);
 
         if (result.code != 0) {
-            console.log(result)
+            throw new Error('Unable to get status of trade id: ' + id + ' ERROR: ' + tradeResult.message);
         }
         
         return result.data;
