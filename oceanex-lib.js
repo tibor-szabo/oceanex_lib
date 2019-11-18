@@ -3,6 +3,8 @@ const jwt  = require('jsonwebtoken');
 
 const API_BASE_URL = 'https://api.oceanex.pro/v1/'
 
+const LIB_NM = '[oceanex-lib]'
+
 var SIGN_OPTIONS = {
     issuer:  'self-signed',
     subject:  'oceanex-trading',
@@ -80,7 +82,7 @@ exports.OceanEx = class  {
 
     async createTrade(market, side, volume, price, type = 'limit')
     {
-        console.log('> Attempting to create trade market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price)
+        console.log(LIB_NM + ' Creating trade market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price)
 
         let createTrade={
             "uid": this.UID,
@@ -97,6 +99,8 @@ exports.OceanEx = class  {
 
         if (tradeResult.code != 0) {
             throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
+        } else {
+            console.log(LIB_NM + ' Trade created ... ')
         }
 
         return tradeResult;
@@ -104,7 +108,7 @@ exports.OceanEx = class  {
 
     async cancelTrade(id)
     {
-        console.log('Attempting to cancel trade id: ' + id )
+        console.log(LIB_NM + ' Cancelling trade id: ' + id )
 
         let cancelTrade={
             "uid": this.UID,
@@ -118,15 +122,14 @@ exports.OceanEx = class  {
         if (result.code != 0) {
             throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + tradeResult.message);
         }
-       
-        console.log("Trade cancelled")
+        else {
+            console.log(LIB_NM + ' Trade cancelled id: ' + id)
+        }
         return result.data;
     }
 
     async getOrderStatus(id)
     {
-        //console.log('Attempting to get status of trade id: ' + id )
-
         let data = {
             "uid": this.UID,
             "data": {
