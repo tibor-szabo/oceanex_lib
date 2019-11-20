@@ -121,6 +121,7 @@ exports.OceanEx = class  {
         let result = await this.privatePostQuery('https://api.oceanex.pro/v1/order/delete?' , cancelTrade);
 
         if (result.code != 0) {
+            console.log(LIB_NM + ' Unable to cancel trade id: ' + id+ ' ERROR: ' + result.message)
             throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + result.message);
         }
         else {
