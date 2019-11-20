@@ -98,6 +98,7 @@ exports.OceanEx = class  {
         let tradeResult = await this.privatePostQuery('https://api.oceanex.pro/v1/orders?' , createTrade);
 
         if (tradeResult.code != 0) {
+            console.log(LIB_NM + ' ERROR: ' + tradeResult.message)
             throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
         } else {
             console.log(LIB_NM + ' Trade created ... ')
