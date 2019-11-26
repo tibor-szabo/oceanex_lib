@@ -98,11 +98,10 @@ exports.OceanEx = class  {
         let tradeResult = await this.privatePostQuery('https://api.oceanex.pro/v1/orders?' , createTrade);
 
         if (tradeResult.code != 0) {
-            console.log(LIB_NM + ' ERROR: ' + tradeResult.message)
             throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
-        } else {
-            console.log(LIB_NM + ' Trade created ... ')
         }
+        
+        console.log(LIB_NM + ' Trade created ... ')
 
         return tradeResult;
     }
@@ -121,12 +120,10 @@ exports.OceanEx = class  {
         let result = await this.privatePostQuery('https://api.oceanex.pro/v1/order/delete?' , cancelTrade);
 
         if (result.code != 0) {
-            console.log(LIB_NM + ' Unable to cancel trade id: ' + id+ ' ERROR: ' + result.message)
             throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + result.message);
         }
-        else {
-            console.log(LIB_NM + ' Trade cancelled id: ' + id)
-        }
+       
+        console.log(LIB_NM + ' Trade cancelled id: ' + id)
         return result.data;
     }
 
