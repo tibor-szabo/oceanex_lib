@@ -1,5 +1,5 @@
 {
-  "name": "@krong/oceanex_lib",
+  "name": "@tibor_szabo/oceanex_lib",
   "version": "0.0.1",
   "description": "Simple library to communicate with OceanEx API",
   "license": "MIT",
