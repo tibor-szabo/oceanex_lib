@@ -1,6 +1,6 @@
 
 var expect = require("chai").expect;
-var oceanEx = require('../oceanex-lib.js');
+var oceanEx = require('../index.js');
 var oceanex = new oceanEx.OceanEx();
 describe('Public endpoints', function() {
     it("Check getMarkets()", function(done) {
