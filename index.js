@@ -127,6 +127,24 @@ exports.OceanEx = class  {
         return result.data;
     }
 
+    async cancelAllTrades()
+    {
+        console.log(LIB_NM + ' Cancelling all trades' )
+
+        let cancelAll={
+            "uid": this.UID,
+        }
+
+        let result = await this.privatePostQuery('https://api.oceanex.pro/v1/orders/clear?', cancelAll);
+
+        if (result.code != 0) {
+            throw new Error('Unable to cancel all trades... ERROR: ' + result.message);
+        }
+       
+        console.log(LIB_NM + ' Trades cancelled...')
+        return result.data;
+    }
+
     async getOrderStatus(id)
     {
         let data = {
