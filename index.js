@@ -54,23 +54,23 @@ exports.OceanEx = class  {
 
     // Helper method to call private GET
     async  privateGetQuery(query, payload) {
-        console.log('Query start: ' + Date());
+        console.log('Query start: ' + Date.now());
         let token = jwt.sign(payload, this.privateKey, SIGN_OPTIONS);
       
         let execQuery = query + 'user_jwt=' + token
       
         let res = await axios.get(execQuery);
-        console.log('Query end: ' + Date());
+        console.log('Query end: ' + Date.now());
         return res.data;
     }
 
     async  privatePostQuery(query, payload) { 
-        console.log('Query start: ' + Date());  
+        console.log('Query start: ' + Date.now());  
         let token = jwt.sign(payload, this.privateKey, SIGN_OPTIONS);
         let execQuery = query + 'user_jwt=' + token
        
         let res = await axios.post(execQuery);
-        console.log('Query end: ' + Date());
+        console.log('Query end: ' + Date.now());
         return res.data;
     }    
 
