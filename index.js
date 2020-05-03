@@ -1,7 +1,13 @@
 const axios = require('axios');
+const ext = require('axios-extensions')
+
 const API_BASE_URL = 'https://api.oceanex.pro/v1/'
+
+
+  
 const api = axios.create({
     baseURL: API_BASE_URL,
+    adapter: ext.throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 2 * 1000 })
 });
 
 const jwt  = require('jsonwebtoken');
