@@ -1,7 +1,17 @@
-const axios = require('axios');
+import { setupCache } from 'axios-cache-adapter'
+const cache = setupCache({
+    maxAge: 15 * 60 * 1000
+  })
+
+import axios from 'axios'
+const api = axios.create({
+    adapter: cache.adapter,
+    baseURL: 'https://api.oceanex.pro'
+})
+
 const jwt  = require('jsonwebtoken');
 
-const API_BASE_URL = 'https://api.oceanex.pro/v1/'
+const API_BASE_URL = '/v1/'
 
 const LIB_NM = '[oceanex-lib]'
 
@@ -23,27 +33,27 @@ exports.OceanEx = class  {
     // Public endpoints
     //
     async getMarkets() {
-        let res = await axios.get(API_BASE_URL + 'markets');
+        let res = await api.get(API_BASE_URL + 'markets');
         return res.data;
     };
         
     async getTicker(market) {
-        let res = await axios.get(API_BASE_URL + 'tickers/' + market);
+        let res = await api.get(API_BASE_URL + 'tickers/' + market);
         return res.data;
     };
 
     async getAllTickers() {
-        let res = await axios.get(API_BASE_URL + 'tickers');
+        let res = await api.get(API_BASE_URL + 'tickers');
         return res.data;
     };
 
     async getOrderBook(market, limit = 30) {
-        let res = await axios.get(API_BASE_URL + 'order_book?market=' + market + '&limit=' + limit);
+        let res = await api.get(API_BASE_URL + 'order_book?market=' + market + '&limit=' + limit);
         return res.data;
     };
 
     async getServerTime() {
-        let res = await axios.get(API_BASE_URL + 'timestamp');
+        let res = await api.get(API_BASE_URL + 'timestamp');
 
         let date = new Date(res.data.data * 1000);
         return date;
@@ -59,7 +69,7 @@ exports.OceanEx = class  {
       
         let execQuery = query + 'user_jwt=' + token
       
-        let res = await axios.get(execQuery);
+        let res = await api.get(execQuery);
         let ms = Date.now() - startTn
         console.log('Query end in ' + ms + ' ms.');
         return res.data;
@@ -70,7 +80,7 @@ exports.OceanEx = class  {
         let token = jwt.sign(payload, this.privateKey, SIGN_OPTIONS);
         let execQuery = query + 'user_jwt=' + token
        
-        let res = await axios.post(execQuery);
+        let res = await api.post(execQuery);
         let ms = Date.now() - startTn
         console.log('Query end in ' + ms + ' ms.');
         return res.data;
@@ -82,7 +92,7 @@ exports.OceanEx = class  {
             "data": {
             }
         }
-        let holdings = await this.privateGetQuery('https://api.oceanex.pro/v1/members/me?' , getHoldings);
+        let holdings = await this.privateGetQuery('/v1/members/me?' , getHoldings);
         return holdings
     }
 
@@ -101,7 +111,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let tradeResult = await this.privatePostQuery('https://api.oceanex.pro/v1/orders?' , createTrade);
+        let tradeResult = await this.privatePostQuery('/v1/orders?' , createTrade);
 
         if (tradeResult.code != 0) {
             throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
@@ -123,7 +133,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let result = await this.privatePostQuery('https://api.oceanex.pro/v1/order/delete?' , cancelTrade);
+        let result = await this.privatePostQuery('/v1/order/delete?' , cancelTrade);
 
         if (result.code != 0) {
             throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + result.message);
@@ -141,7 +151,7 @@ exports.OceanEx = class  {
             "uid": this.UID,
         }
 
-        let result = await this.privatePostQuery('https://api.oceanex.pro/v1/orders/clear?', cancelAll);
+        let result = await this.privatePostQuery('/v1/orders/clear?', cancelAll);
 
         if (result.code != 0) {
             throw new Error('Unable to cancel all trades... ERROR: ' + result.message);
@@ -160,7 +170,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let result = await this.privateGetQuery(' https://api.oceanex.pro/v1/orders?' , data);
+        let result = await this.privateGetQuery('/v1/orders?' , data);
 
         if (result.code != 0) {
             throw new Error('Unable to get status of trade id: ' + id + ' ERROR: ' + result.message);
