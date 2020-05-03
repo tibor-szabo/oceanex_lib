@@ -1,14 +1,13 @@
 const axios = require('axios');
 const ext = require('axios-extensions')
+const https = require('https')
+const http = require('http')
+const httpsAgent = new https.Agent({ keepAlive: true });
+const httpAgent = new http.Agent({ keepAlive: true });
 
 const API_BASE_URL = 'https://api.oceanex.pro/v1/'
 
 
-  
-const api = axios.create({
-    baseURL: API_BASE_URL,
-    adapter: ext.throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 2 * 1000 })
-});
 
 const jwt  = require('jsonwebtoken');
 
@@ -29,31 +28,38 @@ exports.OceanEx = class  {
     constructor(uid, privateKey) {
         this.UID = uid
         this.privateKey = privateKey
+        this.api = axios.create({
+            baseURL: API_BASE_URL,
+            httpsAgent: httpsAgent,
+            httpAgent: httpAgent
+            //,
+           // adapter: ext.throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 2 * 1000 })
+        });
     }
     // Public endpoints
     //
     async getMarkets() {
-        let res = await api.get('markets');
+        let res = await this.api.get('markets');
         return res.data;
     };
         
     async getTicker(market) {
-        let res = await api.get('tickers/' + market);
+        let res = await this.api.get('tickers/' + market);
         return res.data;
     };
 
     async getAllTickers() {
-        let res = await api.get('tickers');
+        let res = await this.api.get('tickers', {httpsAgent: httpsAgent});
         return res.data;
     };
 
     async getOrderBook(market, limit = 30) {
-        let res = await api.get('order_book?market=' + market + '&limit=' + limit);
+        let res = await this.api.get('order_book?market=' + market + '&limit=' + limit);
         return res.data;
     };
 
     async getServerTime() {
-        let res = await api.get('timestamp');
+        let res = await this.api.get('timestamp');
 
         let date = new Date(res.data.data * 1000);
         return date;
@@ -69,7 +75,7 @@ exports.OceanEx = class  {
       
         let execQuery = query + 'user_jwt=' + token
       
-        let res = await api.get(execQuery);
+        let res = await this.api.get(execQuery);
         let ms = Date.now() - startTn
         console.log('Query end in ' + ms + ' ms.');
         return res.data;
@@ -80,7 +86,7 @@ exports.OceanEx = class  {
         let token = jwt.sign(payload, this.privateKey, SIGN_OPTIONS);
         let execQuery = query + 'user_jwt=' + token
        
-        let res = await api.post(execQuery);
+        let res = await this.api.post(execQuery);
         let ms = Date.now() - startTn
         console.log('Query end in ' + ms + ' ms.');
         return res.data;
