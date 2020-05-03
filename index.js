@@ -60,7 +60,8 @@ exports.OceanEx = class  {
         let execQuery = query + 'user_jwt=' + token
       
         let res = await axios.get(execQuery);
-        console.log('Query end in ' + Date.now()-startTn + ' ms.');
+        let ms = Date.now() - startTn
+        console.log('Query end in ' + ms + ' ms.');
         return res.data;
     }
 
@@ -70,7 +71,8 @@ exports.OceanEx = class  {
         let execQuery = query + 'user_jwt=' + token
        
         let res = await axios.post(execQuery);
-        console.log('Query end in ' + Date.now()-startTn + ' ms.');
+        let ms = Date.now() - startTn
+        console.log('Query end in ' + ms + ' ms.');
         return res.data;
     }    
 
