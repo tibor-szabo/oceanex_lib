@@ -1,8 +1,7 @@
 const axios = require('axios');
 const jwt  = require('jsonwebtoken');
 
-//const API_BASE_URL = 'https://api.oceanex.pro/v1/'
-const API_BASE_URL = 'https://104.16.197.13/v1/'
+const API_BASE_URL = 'https://api.oceanex.pro/v1/'
 
 const LIB_NM = '[oceanex-lib]'
 
@@ -83,7 +82,7 @@ exports.OceanEx = class  {
             "data": {
             }
         }
-        let holdings = await this.privateGetQuery('https://104.16.197.1/v1/members/me?' , getHoldings);
+        let holdings = await this.privateGetQuery('https://api.oceanex.pro/v1/members/me?' , getHoldings);
         return holdings
     }
 
@@ -102,7 +101,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let tradeResult = await this.privatePostQuery('https://104.16.197.1/v1/orders?' , createTrade);
+        let tradeResult = await this.privatePostQuery('https://api.oceanex.pro/v1/orders?' , createTrade);
 
         if (tradeResult.code != 0) {
             throw new Error('Unable to createTrade with market: ' + market + ' side: ' + side + ' volume: ' + volume + ' price: ' + price + ' ERROR: ' + tradeResult.message);
@@ -124,7 +123,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let result = await this.privatePostQuery('https://104.16.197.1/v1/order/delete?' , cancelTrade);
+        let result = await this.privatePostQuery('https://api.oceanex.pro/v1/order/delete?' , cancelTrade);
 
         if (result.code != 0) {
             throw new Error('Unable to cancel trade id: ' + id + ' ERROR: ' + result.message);
@@ -142,7 +141,7 @@ exports.OceanEx = class  {
             "uid": this.UID,
         }
 
-        let result = await this.privatePostQuery('https://104.16.197.1/v1/orders/clear?', cancelAll);
+        let result = await this.privatePostQuery('https://api.oceanex.pro/v1/orders/clear?', cancelAll);
 
         if (result.code != 0) {
             throw new Error('Unable to cancel all trades... ERROR: ' + result.message);
@@ -161,7 +160,7 @@ exports.OceanEx = class  {
             }
         }
 
-        let result = await this.privateGetQuery(' https://104.16.197.1/v1/orders?' , data);
+        let result = await this.privateGetQuery(' https://api.oceanex.pro/v1/orders?' , data);
 
         if (result.code != 0) {
             throw new Error('Unable to get status of trade id: ' + id + ' ERROR: ' + result.message);
