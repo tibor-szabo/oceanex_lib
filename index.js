@@ -77,7 +77,7 @@ exports.OceanEx = class  {
       
         let res = await this.api.get(execQuery);
         let ms = Date.now() - startTn
-        console.log('Query end in ' + ms + ' ms.');
+        //console.log('Query end in ' + ms + ' ms.');
         return res.data;
     }
 
@@ -88,7 +88,7 @@ exports.OceanEx = class  {
        
         let res = await this.api.post(execQuery);
         let ms = Date.now() - startTn
-        console.log('Query end in ' + ms + ' ms.');
+       // console.log('Query end in ' + ms + ' ms.');
         return res.data;
     }    
 
