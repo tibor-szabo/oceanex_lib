@@ -5,9 +5,9 @@ const http = require('http')
 const httpsAgent = new https.Agent({ keepAlive: true });
 const httpAgent = new http.Agent({ keepAlive: true });
 
-//const API_BASE_URL = 'https://api.oceanex.pro/v1/'
+const API_BASE_URL = 'https://api.oceanex.pro/v1/'
 
-const API_BASE_URL = 'https://engine.oceanex.pro/api/v2/'
+//const API_BASE_URL = 'https://engine.oceanex.pro/api/v2/'
 
 
 const jwt  = require('jsonwebtoken');
