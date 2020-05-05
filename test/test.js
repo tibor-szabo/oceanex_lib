@@ -18,7 +18,7 @@ describe('Public endpoints', function() {
         var checker = oceanex.getTicker('vetbtc')
         checker.then(function(result){
             try {
-                console.log('res: '+ result.code)
+                console.log('res: '+ result)
                 expect(result.code).to.equal(0);
                 done();
             } catch(err) {
